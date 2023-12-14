@@ -22,7 +22,7 @@ export default async function SnippetShowPage(props: SnippetShowPageProps) {
     notFound();
   }
 
-  // call server actoin (we have to use bind function because we want to pass arguments)
+  // call server actoin from server component (we have to use bind function because we want to pass arguments)
   const deleteSnippetAction = actions.deleteSnippet.bind(null, snippet.id);
 
   return (
@@ -49,4 +49,14 @@ export default async function SnippetShowPage(props: SnippetShowPageProps) {
       </pre>
     </div>
   );
+}
+
+export async function generateStaticParams() {
+  const snippets = await db.snippet.findMany();
+
+  return snippets.map((snippet) => {
+    return {
+      id: snippet.id.toString(),
+    };
+  });
 }
